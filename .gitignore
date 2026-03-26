@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Cursor local state
+.cursor/hooks/state/
