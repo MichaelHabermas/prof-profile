@@ -1,8 +1,6 @@
 import { retrieve } from './retriever.js';
 
-const STORAGE_KEY_API = 'mh_chat_apikey';
-const OPENAI_CHAT_URL = 'https://api.openai.com/v1/chat/completions';
-const CHAT_MODEL = 'gpt-4o-mini';
+const POLLINATIONS_URL = 'https://text.pollinations.ai/';
 
 export function initChatApp() {
   const fab = document.getElementById('chat-fab');
@@ -12,31 +10,14 @@ export function initChatApp() {
   const sendBtn = document.getElementById('chat-send');
   const closeBtn = document.getElementById('chat-close');
   const suggestions = document.getElementById('chat-suggestions');
-  const apiOverlay = document.getElementById('chat-api-overlay');
-  const apiInput = document.getElementById('chat-api-input');
-  const apiSave = document.getElementById('chat-api-save');
-  const apiClear = document.getElementById('chat-api-clear');
 
   let isOpen = false;
   let busy = false;
 
-  function getKey() {
-    return localStorage.getItem(STORAGE_KEY_API) || '';
-  }
-
-  function saveKey(k) {
-    localStorage.setItem(STORAGE_KEY_API, k.trim());
-  }
-
-  function showOverlay(show) {
-    apiOverlay.classList.toggle('hidden', !show);
-  }
-
   function openPanel() {
     isOpen = true;
     panel.classList.add('open');
-    showOverlay(!getKey());
-    if (getKey()) setTimeout(() => input.focus(), 260);
+    setTimeout(() => input.focus(), 260);
   }
 
   function closePanel() {
@@ -46,27 +27,6 @@ export function initChatApp() {
 
   fab.addEventListener('click', () => (isOpen ? closePanel() : openPanel()));
   closeBtn.addEventListener('click', closePanel);
-
-  apiSave.addEventListener('click', () => {
-    const k = apiInput.value.trim();
-    if (!k.startsWith('sk-')) {
-      apiInput.style.borderColor = '#f090c8';
-      return;
-    }
-    saveKey(k);
-    showOverlay(false);
-    setTimeout(() => input.focus(), 80);
-  });
-  apiInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') apiSave.click();
-  });
-
-  apiClear.addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem(STORAGE_KEY_API);
-    apiInput.value = '';
-    showOverlay(true);
-  });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen) closePanel();
@@ -84,11 +44,6 @@ export function initChatApp() {
   async function sendMessage() {
     const q = input.value.trim();
     if (!q || busy) return;
-    const key = getKey();
-    if (!key) {
-      showOverlay(true);
-      return;
-    }
 
     busy = true;
     sendBtn.disabled = true;
@@ -104,61 +59,32 @@ export function initChatApp() {
     thinkingDiv.classList.add('typing');
 
     try {
-      const res = await fetch(OPENAI_CHAT_URL, {
+      const res = await fetch(POLLINATIONS_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${key}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: CHAT_MODEL,
-          stream: true,
-          max_tokens: 300,
           messages: [
             { role: 'system', content: system },
             { role: 'user', content: q },
           ],
+          model: 'openai',
+          private: true,
+          seed: -1,
         }),
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        thinkingDiv.textContent = `Error ${res.status}: ${err?.error?.message || 'Check your API key.'}`;
-        thinkingDiv.classList.remove('typing');
+        thinkingDiv.textContent = `Error ${res.status} — please try again.`;
       } else {
-        thinkingDiv.classList.remove('typing');
-        thinkingDiv.textContent = '';
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buf = '';
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += decoder.decode(value, { stream: true });
-          const lines = buf.split('\n');
-          buf = lines.pop();
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            const data = line.slice(6).trim();
-            if (data === '[DONE]') break;
-            try {
-              const chunk = JSON.parse(data);
-              const delta = chunk.choices?.[0]?.delta?.content;
-              if (delta) {
-                thinkingDiv.textContent += delta;
-                msgs.scrollTop = msgs.scrollHeight;
-              }
-            } catch {
-              /* ignore malformed SSE chunks */
-            }
-          }
-        }
+        const text = await res.text();
+        thinkingDiv.textContent = text.trim() || '(no response)';
       }
     } catch {
       thinkingDiv.textContent = 'Network error — check your connection.';
-      thinkingDiv.classList.remove('typing');
     }
 
+    thinkingDiv.classList.remove('typing');
+    msgs.scrollTop = msgs.scrollHeight;
     busy = false;
     sendBtn.disabled = false;
     input.disabled = false;

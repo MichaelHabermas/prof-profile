@@ -395,23 +395,13 @@
 
 <!-- Chat panel -->
 <div id="chat-panel" role="dialog" aria-label="Ask Michael anything">
-  <!-- API key overlay -->
-  <div id="chat-api-overlay">
-    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#a890f8,#f090c8,#90c8f8);background-size:200% auto;animation:iris-slide 5s linear infinite;margin-bottom:4px"></div>
-    <p><strong>One quick thing.</strong><br>This uses your OpenAI API key to answer questions — it runs entirely in your browser. Nothing is sent to any server except OpenAI.</p>
-    <input id="chat-api-input" type="password" placeholder="sk-..." autocomplete="off" spellcheck="false">
-    <button id="chat-api-save">Start chatting</button>
-    <span id="chat-api-note">Stored in localStorage · Used only for this chat · <a href="#" id="chat-api-clear" style="color:var(--muted);text-decoration:underline">clear anytime</a></span>
-  </div>
-
   <!-- Header -->
   <div id="chat-header">
     <div id="chat-header-iris"></div>
     <div id="chat-header-text">
       <div id="chat-header-title">Ask me anything</div>
-      <div id="chat-header-sub">RAG-powered · runs in your browser</div>
     </div>
-    <button id="chat-close" aria-label="Close chat">✕</button>
+    <button type="button" id="chat-close" aria-label="Close chat">✕</button>
   </div>
 
   <!-- Messages -->
