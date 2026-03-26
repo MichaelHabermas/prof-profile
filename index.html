@@ -289,6 +289,57 @@ body {
   box-shadow: 0 8px 30px rgba(168,144,248,0.1);
   transform: translateY(-2px);
 }
+
+/* Hero image mosaic */
+.hero-gallery {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 14px;
+}
+.hero-frame {
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 170px;
+  box-shadow: 0 10px 30px rgba(84, 76, 140, 0.06);
+}
+.hero-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.35) 52%, rgba(255,255,255,0) 64%);
+  transform: translateX(-130%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.hero-frame:hover::after { transform: translateX(130%); }
+.hero-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-main { grid-row: span 2; min-height: 354px; }
+.hero-caption {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  padding: 4px 9px;
+  border-radius: 2px;
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.82);
+  color: #64627c;
+  border: 1px solid rgba(201, 198, 225, 0.92);
+  backdrop-filter: blur(8px);
+}
+@media (max-width: 767px) {
+  .hero-gallery { grid-template-columns: 1fr; }
+  .hero-main { grid-row: span 1; min-height: 230px; }
+}
 </style>
 </head>
 <body>
@@ -339,15 +390,6 @@ body {
           Senior Full Stack Engineer with five years of production excellence. Specialized in TypeScript, React, Electron, and AI-augmented systems. Scrum Master for teams of nine at the intersection of hardware and intelligent software.
         </p>
 
-        <!-- Skills preview -->
-        <div class="appear d2 flex flex-wrap gap-2 mb-10">
-          <span class="pill featured">TypeScript</span>
-          <span class="pill featured">React</span>
-          <span class="pill featured">AI Systems</span>
-          <span class="pill featured">Electron</span>
-          <span class="pill featured">RxJS</span>
-        </div>
-
         <div class="appear d3 flex gap-3 flex-wrap">
           <a href="mailto:michaelghabermas@gmail.com" class="cta cta-iris">Get in touch</a>
           <a href="https://github.com/MichaelHabermas" target="_blank" class="cta cta-ghost">GitHub</a>
@@ -355,30 +397,17 @@ body {
         </div>
       </div>
 
-      <!-- Right: Stats grid -->
-      <div class="grid grid-cols-2 gap-4 appear d2">
-        <div class="stat-box">
-          <div class="stat-n iris-text">5+</div>
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px">Years Production</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-n iris-text">9+</div>
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px">Engineers Led</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-n iris-text">70%</div>
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px">AI-Assisted Dev</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-n iris-text" style="font-size:40px">Low</div>
-          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px">HMI Latency</div>
-        </div>
-        <!-- Contact card -->
-        <div class="stat-box col-span-2" style="padding:20px 24px">
-          <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Contact</div>
-          <div style="font-size:13px;color:var(--ink2)">michaelghabermas@gmail.com</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:2px">323-535-3495</div>
-        </div>
+      <!-- Right: Image gallery -->
+      <div class="hero-gallery appear d2">
+        <figure class="hero-frame hero-main">
+          <img src="assets/hero-iris-vision.svg" alt="Iridescent abstract composition with layered geometric forms">
+        </figure>
+        <figure class="hero-frame">
+          <img src="assets/hero-iris-network.svg" alt="Flowing network lines and soft glowing nodes in pastel colors">
+        </figure>
+        <figure class="hero-frame">
+          <img src="assets/hero-iris-interface.svg" alt="Machine-vision inspired interface artwork with focus rings">
+        </figure>
       </div>
 
     </div>

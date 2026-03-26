@@ -1,0 +1,30 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F8FB"/>
+      <stop offset="1" stop-color="#F1F2F7"/>
+    </linearGradient>
+    <radialGradient id="orbA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(270 250) rotate(31) scale(420 320)">
+      <stop stop-color="#C0B8F8" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#C0B8F8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 520) rotate(-14) scale(460 300)">
+      <stop stop-color="#F0B8D8" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#F0B8D8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbC" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(680 300) rotate(12) scale(360 260)">
+      <stop stop-color="#B8E8F8" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#B8E8F8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blurSoft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <rect x="140" y="120" width="460" height="300" rx="32" fill="url(#orbA)" filter="url(#blurSoft)"/>
+  <rect x="490" y="310" width="560" height="380" rx="46" fill="url(#orbB)" filter="url(#blurSoft)"/>
+  <rect x="500" y="120" width="400" height="280" rx="36" fill="url(#orbC)" filter="url(#blurSoft)"/>
+  <path d="M120 620C246 540 324 684 440 612C525 560 574 445 704 460C806 472 896 580 1080 548" stroke="#CDC8F7" stroke-width="2.4" stroke-linecap="round" opacity="0.8"/>
+  <path d="M82 680C220 626 324 748 486 708C592 682 724 562 864 600C944 622 1010 700 1112 668" stroke="#B8DDF7" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+  <path d="M168 310C310 250 408 366 550 300C634 262 690 178 830 196C920 210 1002 282 1110 254" stroke="#F2BEDB" stroke-width="1.8" stroke-linecap="round" opacity="0.74"/>
+</svg>
