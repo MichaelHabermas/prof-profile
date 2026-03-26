@@ -4,7 +4,7 @@
 
 This is a personal portfolio website built with:
 
-- **HTML5** - Single page application with embedded CSS and JavaScript
+- **HTML5** - Single-page site; custom CSS in `css/main.css`, behavior in `js/` (ES modules)
 - **Tailwind CSS** (via CDN) - Utility-first CSS framework
 - **Google Fonts** - Sora (sans-serif) and DM Serif Display (serif)
 - **No build system** - Static files, served directly
@@ -18,10 +18,9 @@ There is no package.json, no build commands, no linting, and no tests in this pr
 Since this is a static HTML site with no build system, there are no traditional commands. To preview the site:
 
 ```bash
-# Open index.html in a browser
-open index.html
-# Or serve with a local server
+# Recommended: local server (required for ES module imports)
 python3 -m http.server 8000
+# Then open http://localhost:8000/
 ```
 
 To validate HTML:
@@ -46,8 +45,8 @@ There are no tests in this project.
 ### HTML Structure
 
 - Use 2-space indentation
-- Keep all CSS and JS inline (in `<style>` and `<script>` tags) for simplicity
-- Place `<script>` tags at the end of `<body>`
+- Keep custom CSS in `css/main.css` and scripts in `js/` (linked from `index.html`)
+- Place `<script type="module">` at the end of `<body>`
 - Use lowercase for all tags and attributes
 
 ```html
@@ -157,14 +156,24 @@ Iridescent accents:
 - **Portfolio content**: Do not include location claims about the user
 - **Avoid performance claims** like `1ms` or sub-millisecond latency unless explicitly requested
 - **Avoid generic purple-gradient aesthetics** - the iridescent style is preferred
+- **Tag/chip styling**: When the user asks to avoid pill or capsule shapes, restyle tags (including `.pill`) to non-capsule treatments such as underlined text or square corners rather than rounded chip backgrounds
 
 ---
 
 ## File Structure
 
-```
+```bash
 prof-profile/
-├── index.html          # Main portfolio page (single file)
+├── index.html          # Main portfolio markup
+├── assets/             # Custom visuals (e.g. hero SVGs)
+├── css/
+│   └── main.css        # Custom styles (Tailwind remains via CDN)
+├── js/
+│   ├── main.js         # Entry (ES modules)
+│   ├── scroll-reveal.js
+│   └── chat/           # Portfolio chat widget (RAG + OpenAI)
+├── scripts/
+│   └── add-github-project.js
 ├── docs/
 │   ├── 1.html          # Additional documentation page
 │   └── Michael_Habermas_CV.pdf
@@ -178,9 +187,9 @@ prof-profile/
 
 ## Working with This Project
 
-1. Edit `index.html` directly - it's the only source file
-2. Open in browser to preview changes
-3. Use Tailwind CDN classes for styling; add custom CSS in `<style>` tag only when needed
+1. Edit `index.html` for markup; `css/main.css` for custom CSS; `js/` for behavior (ES modules, serve over HTTP)
+2. Preview with a local server (see README) so module imports load
+3. Use Tailwind CDN classes for styling; extend in `css/main.css` when needed
 4. No CI/CD pipeline - manual deployment only
 
 ---

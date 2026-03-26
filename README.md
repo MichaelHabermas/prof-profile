@@ -11,17 +11,13 @@ Personal portfolio website built as a static single-page project:
 
 ## Local preview
 
-Option 1: open `index.html` in a browser.
-
-Option 2: serve locally:
+JavaScript is split into ES modules (`js/main.js`); use a local server so imports resolve reliably (opening `index.html` via `file://` may not load modules in every browser).
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open:
-
-- `http://localhost:8000/index.html`
+Then open `http://localhost:8000/` or `http://localhost:8000/index.html`.
 
 ## Extra pages
 
