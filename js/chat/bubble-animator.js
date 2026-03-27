@@ -126,10 +126,19 @@ const POSES = {
   },
 };
 
+const BUBBLE_SFX_URLS = [
+  'assets/bubble-sounds/bubble-bleh-la-la.mp3',
+  'assets/bubble-sounds/bubble-bleeeeeh.mp3',
+];
+
+function pickRandomBubbleSfx() {
+  return BUBBLE_SFX_URLS[Math.floor(Math.random() * BUBBLE_SFX_URLS.length)];
+}
+
 const SOUND_LIBRARY = {
-  hover: { asset: null, synth: playHoverSynth },
-  open: { asset: null, synth: playOpenSynth },
-  close: { asset: null, synth: playCloseSynth },
+  hover: { useBubblePool: true },
+  open: { useBubblePool: true },
+  close: { useBubblePool: true },
   toggle: { asset: null, synth: playToggleSynth },
   listening: { asset: null, synth: playListeningSynth },
 };
@@ -209,6 +218,17 @@ class BubbleSoundController {
     const definition = SOUND_LIBRARY[name];
     if (!definition) return;
 
+    if (definition.useBubblePool) {
+      const audio = new Audio(pickRandomBubbleSfx());
+      audio.volume = 0.75;
+      try {
+        await audio.play();
+      } catch {
+        /* pool-only: no synth fallback */
+      }
+      return;
+    }
+
     const ctx = await this.ensureContext();
     if (!ctx) return;
 
@@ -225,76 +245,6 @@ class BubbleSoundController {
 
     definition.synth(ctx);
   }
-}
-
-function playHoverSynth(ctx) {
-  const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(740, now);
-  osc.frequency.exponentialRampToValueAtTime(980, now + 0.09);
-  osc.frequency.exponentialRampToValueAtTime(820, now + 0.16);
-
-  gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.028, now + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.17);
-
-  osc.connect(gain).connect(ctx.destination);
-  osc.start(now);
-  osc.stop(now + 0.18);
-}
-
-function playOpenSynth(ctx) {
-  const now = ctx.currentTime;
-  const low = ctx.createOscillator();
-  const high = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  low.type = 'square';
-  low.frequency.setValueAtTime(220, now);
-  low.frequency.exponentialRampToValueAtTime(126, now + 0.16);
-
-  high.type = 'triangle';
-  high.frequency.setValueAtTime(920, now + 0.01);
-  high.frequency.exponentialRampToValueAtTime(410, now + 0.12);
-
-  gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.045, now + 0.03);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
-
-  low.connect(gain);
-  high.connect(gain);
-  gain.connect(ctx.destination);
-
-  low.start(now);
-  high.start(now + 0.01);
-  low.stop(now + 0.19);
-  high.stop(now + 0.14);
-}
-
-function playCloseSynth(ctx) {
-  const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
-
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(1400, now);
-  filter.frequency.exponentialRampToValueAtTime(420, now + 0.12);
-
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(420, now);
-  osc.frequency.exponentialRampToValueAtTime(110, now + 0.12);
-
-  gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.035, now + 0.015);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-
-  osc.connect(filter).connect(gain).connect(ctx.destination);
-  osc.start(now);
-  osc.stop(now + 0.13);
 }
 
 function playToggleSynth(ctx) {

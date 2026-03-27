@@ -2,7 +2,7 @@
 
 ## Rule of Cool — Remaining Ideas
 
-### voice for Bubble
+### #1 Voice for Bubble
 
 https://youtube.com/clip/UgkxRaP2K_JxWn5ykYjx_4hUjp8IvFEpseLM?si=ejAPAXveM7DfRW2e
 
