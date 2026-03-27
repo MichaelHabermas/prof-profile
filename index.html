@@ -387,53 +387,117 @@
 
 <!-- ===== AI CHAT WIDGET ===== -->
 <!-- Floating button -->
-<button id="chat-fab" aria-label="Ask me anything" title="Ask me anything">
-  <!-- Bubble from The Amazing Digital Circus -->
-  <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<button
+  id="chat-fab"
+  aria-label="Ask me anything"
+  aria-expanded="false"
+  title="Ask me anything"
+  data-bubble-state="idle"
+  data-sound="off"
+>
+  <span class="bubble-shadow" aria-hidden="true"></span>
+  <svg
+    class="bubble-svg"
+    viewBox="0 0 120 120"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
     <defs>
-      <!-- sweep-flag=0: arc goes downward (clockwise on screen) → lower half-ellipse -->
-      <clipPath id="mouth-clip">
-        <path d="M0 22 A26 26 0 0 0 52 22 Z"/>
+      <radialGradient id="bubble-shell-gradient" cx="0.32" cy="0.24" r="0.9">
+        <stop offset="0%" stop-color="#ece8ff"/>
+        <stop offset="38%" stop-color="#b6b3ff"/>
+        <stop offset="72%" stop-color="#7369e8"/>
+        <stop offset="100%" stop-color="#4e45bb"/>
+      </radialGradient>
+      <radialGradient id="bubble-gloss-gradient" cx="0.2" cy="0.1" r="1">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+      </radialGradient>
+      <clipPath id="bubble-mouth-clip">
+        <path d="M19 61C25 40 95 40 101 61C95 90 25 90 19 61Z"/>
       </clipPath>
     </defs>
-    <!-- Glossy highlight -->
-    <ellipse cx="17" cy="10" rx="12" ry="7" fill="rgba(255,255,255,0.55)"/>
-    <!-- Left eye — large, near edge -->
-    <circle cx="8" cy="15" r="4.5" fill="#0a0a1a"/>
-    <circle cx="9.6" cy="13.4" r="1.5" fill="white"/>
-    <!-- Right eye — large, near other edge -->
-    <circle cx="44" cy="15" r="4.5" fill="#0a0a1a"/>
-    <circle cx="45.6" cy="13.4" r="1.5" fill="white"/>
-    <!-- Full-width elliptical mouth, sweep=0 = lower half -->
-    <path d="M0 22 A26 26 0 0 0 52 22 Z" fill="#6b0d0d"/>
-    <g clip-path="url(#mouth-clip)">
-      <!-- Red interior behind teeth -->
-      <rect x="-2" y="22" width="56" height="40" fill="#6b0d0d"/>
-      <!-- Top teeth — 5 triangles, each 10.4px wide, tips at y=41 -->
-      <polygon points="0,22 5.2,41 10.4,22" fill="white"/>
-      <polygon points="10.4,22 15.6,41 20.8,22" fill="white"/>
-      <polygon points="20.8,22 26,41 31.2,22" fill="white"/>
-      <polygon points="31.2,22 36.4,41 41.6,22" fill="white"/>
-      <polygon points="41.6,22 46.8,41 52,22" fill="white"/>
-      <!-- Bottom teeth — 6 triangles offset by 5.2px so peaks align with top gaps -->
-      <polygon points="-5.2,66 0,35 5.2,66" fill="white"/>
-      <polygon points="5.2,66 10.4,35 15.6,66" fill="white"/>
-      <polygon points="15.6,66 20.8,35 26,66" fill="white"/>
-      <polygon points="26,66 31.2,35 36.4,66" fill="white"/>
-      <polygon points="36.4,66 41.6,35 46.8,66" fill="white"/>
-      <polygon points="46.8,66 52,35 57.2,66" fill="white"/>
+
+    <g class="bubble-character">
+      <g data-part="body-shell" class="bubble-body">
+        <circle cx="60" cy="60" r="52" fill="url(#bubble-shell-gradient)"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#ffffff" stroke-opacity="0.28" stroke-width="2.5"/>
+      </g>
+
+      <ellipse class="bubble-gloss-main" cx="40" cy="25" rx="25" ry="13" fill="url(#bubble-gloss-gradient)"/>
+      <ellipse class="bubble-gloss-small" cx="28" cy="42" rx="7" ry="4" fill="#ffffff" fill-opacity="0.34"/>
+
+      <g data-part="eyes" class="bubble-eyes">
+        <g data-part="eye-left" class="bubble-eye bubble-eye-left">
+          <ellipse cx="23" cy="34" rx="11.5" ry="12" fill="#090912"/>
+          <circle cx="27" cy="29" r="3.3" fill="#fff"/>
+        </g>
+        <g data-part="eye-right" class="bubble-eye bubble-eye-right">
+          <ellipse cx="97" cy="34" rx="11.5" ry="12" fill="#090912"/>
+          <circle cx="101" cy="29" r="3.3" fill="#fff"/>
+        </g>
+      </g>
+
+      <g data-part="mouth-shell" class="bubble-mouth-shell">
+        <path d="M19 61C25 40 95 40 101 61C95 90 25 90 19 61Z" fill="#4f0610"/>
+        <path d="M20 61C26 43 94 43 100 61C94 85 26 85 20 61Z" fill="#6d0b16"/>
+      </g>
+
+      <g class="bubble-mouth-contents" clip-path="url(#bubble-mouth-clip)">
+        <ellipse class="bubble-mouth-depth" cx="60" cy="66" rx="38" ry="24" fill="#32010b"/>
+        <g data-part="tongue" class="bubble-tongue">
+          <path
+            d="M54 59C60 58 67 60 72 65C78 71 80 84 71 92C63 99 48 96 45 86C42 77 46 68 54 59Z"
+            fill="#ff6f8f"
+          />
+          <path
+            class="bubble-tongue-tip"
+            d="M56 68C63 66 70 69 72 76C74 83 68 90 60 91C52 92 46 87 46 80C46 74 50 70 56 68Z"
+            fill="#ff9eb1"
+          />
+          <path d="M57 62C59 72 59 82 58 91" stroke="#f04c73" stroke-width="2.3" stroke-linecap="round"/>
+        </g>
+
+        <g data-part="teeth-top" class="bubble-teeth bubble-teeth-top">
+          <polygon points="17,55 25,74 33,55" fill="#fffdfc"/>
+          <polygon points="33,55 41,75 49,55" fill="#fffdfc"/>
+          <polygon points="49,55 60,78 71,55" fill="#fffdfc"/>
+          <polygon points="71,55 79,75 87,55" fill="#fffdfc"/>
+          <polygon points="87,55 95,74 103,55" fill="#fffdfc"/>
+        </g>
+
+        <g data-part="teeth-bottom" class="bubble-teeth bubble-teeth-bottom">
+          <polygon points="13,104 21,76 29,104" fill="#fffdfc"/>
+          <polygon points="29,104 37,75 45,104" fill="#fffdfc"/>
+          <polygon points="45,104 53,73 61,104" fill="#fffdfc"/>
+          <polygon points="61,104 69,73 77,104" fill="#fffdfc"/>
+          <polygon points="77,104 85,75 93,104" fill="#fffdfc"/>
+          <polygon points="93,104 101,76 109,104" fill="#fffdfc"/>
+        </g>
+      </g>
     </g>
   </svg>
 </button>
 
 <!-- Chat panel -->
-<div id="chat-panel" role="dialog" aria-label="Ask Michael anything">
+<div id="chat-panel" role="dialog" aria-label="Ask Michael anything" data-panel-state="closed" data-sound="off">
   <!-- Header -->
   <div id="chat-header">
     <div id="chat-header-iris"></div>
     <div id="chat-header-text">
       <div id="chat-header-title">Ask me anything</div>
+      <div id="chat-header-sub">Animated portfolio guide</div>
     </div>
+    <button type="button" id="chat-sound-toggle" aria-label="Enable chat sounds" aria-pressed="false" title="Enable chat sounds">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 14h4l5 4V6L8 10H4z"/>
+        <path class="sound-wave sound-wave-1" d="M16 9c1.2.9 2 2.2 2 3.5S17.2 15.1 16 16"/>
+        <path class="sound-wave sound-wave-2" d="M18.8 6.8c2.1 1.7 3.4 3.9 3.4 5.7s-1.3 4-3.4 5.7"/>
+        <path class="sound-off-slash" d="M5 5l14 14"/>
+      </svg>
+      <span>FX</span>
+    </button>
     <button type="button" id="chat-reset" aria-label="Reset chat">Reset</button>
     <button type="button" id="chat-close" aria-label="Close chat">✕</button>
   </div>

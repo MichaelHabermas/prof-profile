@@ -1,4 +1,5 @@
 import { retrieve } from './retriever.js';
+import { createBubbleAnimator } from './bubble-animator.js';
 
 const CHAT_API_URL = '/.netlify/functions/chat';
 const POLLINATIONS_URL = 'https://text.pollinations.ai/';
@@ -13,24 +14,45 @@ export function initChatApp() {
   const sendBtn = document.getElementById('chat-send');
   const closeBtn = document.getElementById('chat-close');
   const resetBtn = document.getElementById('chat-reset');
+  const soundToggle = document.getElementById('chat-sound-toggle');
   const suggestions = document.getElementById('chat-suggestions');
 
-  let isOpen = false;
+  if (
+    !fab ||
+    !panel ||
+    !msgs ||
+    !input ||
+    !sendBtn ||
+    !closeBtn ||
+    !resetBtn ||
+    !soundToggle ||
+    !suggestions
+  ) {
+    return;
+  }
+
   let busy = false;
+  const animator = createBubbleAnimator({ fab, panel, soundToggle });
 
-  function openPanel() {
-    isOpen = true;
-    panel.classList.add('open');
-    setTimeout(() => input.focus(), 260);
+  async function openPanel() {
+    const opened = await animator.openPanelSequence();
+    if (opened) {
+      window.setTimeout(() => input.focus(), 260);
+    }
   }
 
-  function closePanel() {
-    isOpen = false;
-    panel.classList.remove('open');
+  async function closePanel() {
+    await animator.closePanelSequence();
   }
 
-  fab.addEventListener('click', () => (isOpen ? closePanel() : openPanel()));
-  closeBtn.addEventListener('click', closePanel);
+  fab.addEventListener('click', () => {
+    if (animator.isLocked()) return;
+    void (animator.isOpen() ? closePanel() : openPanel());
+  });
+
+  closeBtn.addEventListener('click', () => {
+    void closePanel();
+  });
 
   function resetChat() {
     if (busy) return;
@@ -44,7 +66,9 @@ export function initChatApp() {
   resetBtn.addEventListener('click', resetChat);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen) closePanel();
+    if (e.key === 'Escape' && animator.isOpen()) {
+      void closePanel();
+    }
   });
 
   function addMsg(role, text) {
@@ -97,6 +121,7 @@ export function initChatApp() {
     suggestions.style.display = 'none';
 
     addMsg('user', q);
+    animator.setListening(true);
 
     const context = retrieve(q);
     const system = `You are a helpful assistant for Michael Habermas's portfolio. Answer questions concisely and accurately using only the provided context. Speak in third person about Michael. If the answer isn't in the context, say so briefly.\n\nContext:\n${context.join('\n\n')}`;
@@ -128,6 +153,7 @@ export function initChatApp() {
     }
 
     thinkingDiv.classList.remove('typing');
+    animator.setListening(false);
     msgs.scrollTop = msgs.scrollHeight;
     busy = false;
     sendBtn.disabled = false;
