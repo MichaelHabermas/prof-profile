@@ -17,3 +17,6 @@
 .openhands/
 skills/
 .gstack/
+
+# Local Netlify folder
+.netlify

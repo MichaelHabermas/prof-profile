@@ -52,6 +52,16 @@ export function initChatApp() {
 
     // Local static servers do not run Netlify Functions and often return 404/405.
     if (proxiedRes.status === 404 || proxiedRes.status === 405) {
+      const isLocalHost =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1';
+
+      if (isLocalHost) {
+        throw new Error(
+          'Local server cannot run Netlify Functions. Start with `netlify dev`.'
+        );
+      }
+
       return fetch(POLLINATIONS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -87,7 +97,6 @@ export function initChatApp() {
         ],
         model: 'openai',
         private: true,
-        seed: -1,
       });
 
       if (!res.ok) {
@@ -96,8 +105,11 @@ export function initChatApp() {
         const text = await res.text();
         thinkingDiv.textContent = text.trim() || '(no response)';
       }
-    } catch {
-      thinkingDiv.textContent = 'Network error — check your connection.';
+    } catch (error) {
+      thinkingDiv.textContent =
+        error instanceof Error
+          ? error.message
+          : 'Network error — check your connection.';
     }
 
     thinkingDiv.classList.remove('typing');
