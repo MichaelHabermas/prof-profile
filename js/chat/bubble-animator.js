@@ -131,6 +131,10 @@ const BUBBLE_SFX_URLS = [
   'assets/bubble-sounds/bubble-bleeeeeh.mp3',
 ];
 
+/** Tiny silent WAV — `HTMLAudioElement.play()` needs a user gesture first; this primes the element. */
+const SILENT_AUDIO_WAV =
+  'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAAB9AAABAAABAAAZGF0YAgAAAAA';
+
 function pickRandomBubbleSfx() {
   return BUBBLE_SFX_URLS[Math.floor(Math.random() * BUBBLE_SFX_URLS.length)];
 }
@@ -153,6 +157,25 @@ class BubbleSoundController {
     this.roots = roots;
     this.enabled = true;
     this.audioContext = null;
+    this._html5AudioPrimed = false;
+  }
+
+  /**
+   * Browsers block `Audio.play()` until there has been a user gesture. Hover is not a gesture.
+   * Call this from pointer/key handlers or before playing pool SFX after any unlock path.
+   */
+  async primeHtml5Audio() {
+    if (this._html5AudioPrimed) return;
+
+    const audio = new Audio(SILENT_AUDIO_WAV);
+    audio.volume = 0.0001;
+    try {
+      await audio.play();
+      this._html5AudioPrimed = true;
+      audio.pause();
+    } catch {
+      /* still autoplay-gated */
+    }
   }
 
   syncUi() {
@@ -192,6 +215,7 @@ class BubbleSoundController {
     this.syncUi();
 
     if (enabled) {
+      await this.primeHtml5Audio();
       await this.ensureContext();
     }
 
@@ -209,6 +233,7 @@ class BubbleSoundController {
 
   async unlockFromGesture() {
     if (!this.enabled) return;
+    await this.primeHtml5Audio();
     await this.ensureContext();
   }
 
@@ -301,6 +326,35 @@ export function createBubbleAnimator({ fab, panel, soundToggle }) {
     roots: [fab, panel],
   });
   sound.syncUi();
+
+  function primeHtml5OnFirstDocumentGesture() {
+    const go = () => {
+      void sound.primeHtml5Audio();
+      document.removeEventListener('pointerdown', go, true);
+      document.removeEventListener('keydown', go, true);
+    };
+    document.addEventListener('pointerdown', go, { capture: true, passive: true });
+    document.addEventListener('keydown', go, { capture: true, passive: true });
+  }
+  primeHtml5OnFirstDocumentGesture();
+
+  fab.addEventListener(
+    'pointerdown',
+    () => {
+      void (async () => {
+        await sound.primeHtml5Audio();
+        if (
+          fab.dataset.bubbleState === 'hover' &&
+          !open &&
+          !locked &&
+          !listening
+        ) {
+          void sound.play('hover');
+        }
+      })();
+    },
+    { passive: true }
+  );
 
   function applyPose(pose) {
     const mergedPose = { ...BASE_POSE, ...pose };
