@@ -774,7 +774,7 @@ body {
 }
 
 #chat-fab[data-bubble-state="hover"] .bubble-tongue {
-  animation: bubble-hover-tongue 0.7s cubic-bezier(0.2, 0.88, 0.28, 1.15) 1;
+  animation: bubble-hover-tongue 0.35s cubic-bezier(0.2, 0.88, 0.28, 1.15) 1;
 }
 
 #chat-fab[data-bubble-state="click"] .bubble-character {
@@ -787,7 +787,7 @@ body {
 }
 
 #chat-fab[data-bubble-state="click"] .bubble-tongue {
-  animation: bubble-click-tongue 0.56s cubic-bezier(0.22, 1, 0.34, 1) 1;
+  animation: bubble-click-tongue 0.28s cubic-bezier(0.22, 1, 0.34, 1) 1;
 }
 
 #chat-fab[data-bubble-state="open"] .bubble-character {
@@ -805,7 +805,7 @@ body {
 }
 
 #chat-fab[data-bubble-state="listening"] .bubble-tongue {
-  animation: bubble-listening-tongue 1.2s ease-in-out infinite;
+  animation: bubble-listening-tongue 0.6s ease-in-out infinite;
 }
 
 #chat-fab[data-bubble-state="close"] .bubble-character {
@@ -813,7 +813,7 @@ body {
 }
 
 #chat-fab[data-bubble-state="close"] .bubble-tongue {
-  animation: bubble-close-tongue 0.42s cubic-bezier(0.4, 0, 0.2, 1) 1;
+  animation: bubble-close-tongue 0.21s cubic-bezier(0.4, 0, 0.2, 1) 1;
 }
 
 #chat-panel {
