@@ -2,6 +2,8 @@ import { retrieve } from './retriever.js';
 
 const CHAT_API_URL = '/.netlify/functions/chat';
 const POLLINATIONS_URL = 'https://text.pollinations.ai/';
+const DEFAULT_ASSISTANT_MESSAGE =
+  "Hey! I'm Michael's AI assistant — ask me about his experience, projects, skills, or anything on his resume.";
 
 export function initChatApp() {
   const fab = document.getElementById('chat-fab');
@@ -10,6 +12,7 @@ export function initChatApp() {
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
   const closeBtn = document.getElementById('chat-close');
+  const resetBtn = document.getElementById('chat-reset');
   const suggestions = document.getElementById('chat-suggestions');
 
   let isOpen = false;
@@ -28,6 +31,17 @@ export function initChatApp() {
 
   fab.addEventListener('click', () => (isOpen ? closePanel() : openPanel()));
   closeBtn.addEventListener('click', closePanel);
+
+  function resetChat() {
+    if (busy) return;
+    msgs.innerHTML = '';
+    addMsg('assistant', DEFAULT_ASSISTANT_MESSAGE);
+    suggestions.style.display = 'flex';
+    input.value = '';
+    input.focus();
+  }
+
+  resetBtn.addEventListener('click', resetChat);
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen) closePanel();
@@ -80,6 +94,7 @@ export function initChatApp() {
     sendBtn.disabled = true;
     input.value = '';
     input.disabled = true;
+    suggestions.style.display = 'none';
 
     addMsg('user', q);
 

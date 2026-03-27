@@ -19,6 +19,35 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000/` or `http://localhost:8000/index.html`.
 
+## Local chatbot testing (Netlify Functions)
+
+The chatbot calls a Netlify Function endpoint at `/.netlify/functions/chat`.
+If you run a plain static server (for example `python3 -m http.server` or VS Code Live Server on `:5500`), that function route will return `404`/`405` and chat will not work correctly.
+
+Use Netlify dev for chatbot testing:
+
+```bash
+# one-time install
+npm i -g netlify-cli
+
+# from project root
+netlify dev
+```
+
+Open the URL printed by Netlify CLI (usually `http://localhost:8888`) and test chat there.
+
+### Quick function health check
+
+With `netlify dev` running, test the function directly:
+
+```bash
+curl -i -X POST "http://localhost:8888/.netlify/functions/chat" \
+  -H "Content-Type: application/json" \
+  --data '{"messages":[{"role":"user","content":"hello"}],"model":"openai","private":true}'
+```
+
+Expected result: HTTP 200 and a text response body.
+
 ## Extra pages
 
 - `docs/1.html`

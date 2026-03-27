@@ -424,6 +424,24 @@ body {
 #chat-header-text { flex: 1; }
 #chat-header-title { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.2; }
 #chat-header-sub { font-size: 10px; color: var(--muted); letter-spacing: 0.5px; }
+#chat-reset {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 3px 8px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Sora', sans-serif;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+#chat-reset:hover {
+  color: var(--ink);
+  border-color: rgba(168,144,248,0.45);
+  background: rgba(168,144,248,0.08);
+}
 #chat-close {
   background: none;
   border: none;
