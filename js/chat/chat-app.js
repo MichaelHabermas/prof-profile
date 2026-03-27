@@ -1,5 +1,6 @@
 import { retrieve } from './retriever.js';
 
+const CHAT_API_URL = '/.netlify/functions/chat';
 const POLLINATIONS_URL = 'https://text.pollinations.ai/';
 
 export function initChatApp() {
@@ -41,6 +42,26 @@ export function initChatApp() {
     return div;
   }
 
+  async function requestChat(payload) {
+    // Primary path for deployed site (and local `netlify dev`).
+    const proxiedRes = await fetch(CHAT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    // Local static servers do not run Netlify Functions and often return 404/405.
+    if (proxiedRes.status === 404 || proxiedRes.status === 405) {
+      return fetch(POLLINATIONS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    }
+
+    return proxiedRes;
+  }
+
   async function sendMessage() {
     const q = input.value.trim();
     if (!q || busy) return;
@@ -59,18 +80,14 @@ export function initChatApp() {
     thinkingDiv.classList.add('typing');
 
     try {
-      const res = await fetch(POLLINATIONS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            { role: 'system', content: system },
-            { role: 'user', content: q },
-          ],
-          model: 'openai',
-          private: true,
-          seed: -1,
-        }),
+      const res = await requestChat({
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: q },
+        ],
+        model: 'openai',
+        private: true,
+        seed: -1,
       });
 
       if (!res.ok) {
