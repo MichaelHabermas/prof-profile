@@ -2,6 +2,11 @@
 
 ## Rule of Cool — Remaining Ideas
 
+### voice for Bubble
+
+https://youtube.com/clip/UgkxRaP2K_JxWn5ykYjx_4hUjp8IvFEpseLM?si=ejAPAXveM7DfRW2e
+https://youtube.com/clip/Ugkxr1zwU3hhAW0OruLffvT7CIvG7hv3vSWo?si=49UR_yNNwQrv_j71One
+
 ### #2 · View Source Easter Egg
 
 A subtle `< />` link in the nav that intercepts the instinct every engineer has to check source. Clicking it opens an animated code panel showcasing a curated snippet of your most impressive production code — the Pixi.js canvas renderer, the Firebase dual-layer sync, the TF-IDF retriever. Engineers who read other engineers' portfolios always check the source; owning that behavior and turning it into a deliberate showcase is something no other portfolio does.

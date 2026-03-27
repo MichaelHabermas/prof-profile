@@ -142,7 +142,7 @@ class BubbleSoundController {
   constructor({ toggle, roots }) {
     this.toggle = toggle;
     this.roots = roots;
-    this.enabled = false;
+    this.enabled = true;
     this.audioContext = null;
   }
 
