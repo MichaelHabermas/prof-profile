@@ -388,8 +388,45 @@
 <!-- ===== AI CHAT WIDGET ===== -->
 <!-- Floating button -->
 <button id="chat-fab" aria-label="Ask me anything" title="Ask me anything">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  <!-- Bubble from The Amazing Digital Circus -->
+  <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- sweep-flag=0: arc goes downward (clockwise on screen) → lower half-ellipse -->
+      <clipPath id="mouth-clip">
+        <path d="M0 22 A26 26 0 0 0 52 22 Z"/>
+      </clipPath>
+    </defs>
+    <!-- Glossy highlight -->
+    <ellipse cx="17" cy="10" rx="12" ry="7" fill="rgba(255,255,255,0.55)"/>
+    <!-- Left eye — large, near edge -->
+    <circle cx="8" cy="15" r="4.5" fill="#0a0a1a"/>
+    <circle cx="9.6" cy="13.4" r="1.5" fill="white"/>
+    <!-- Right eye — large, near other edge -->
+    <circle cx="44" cy="15" r="4.5" fill="#0a0a1a"/>
+    <circle cx="45.6" cy="13.4" r="1.5" fill="white"/>
+    <!-- Full-width elliptical mouth, sweep=0 = lower half -->
+    <path d="M0 22 A26 26 0 0 0 52 22 Z" fill="#6b0d0d"/>
+    <g clip-path="url(#mouth-clip)">
+      <!-- Red interior behind teeth -->
+      <rect x="-2" y="22" width="56" height="40" fill="#6b0d0d"/>
+      <!-- Top teeth — 7 triangles, each 7.43px wide, tips at y=41 -->
+      <polygon points="0,22 3.71,41 7.43,22" fill="white"/>
+      <polygon points="7.43,22 11.14,41 14.86,22" fill="white"/>
+      <polygon points="14.86,22 18.57,41 22.29,22" fill="white"/>
+      <polygon points="22.29,22 26,41 29.71,22" fill="white"/>
+      <polygon points="29.71,22 33.43,41 37.14,22" fill="white"/>
+      <polygon points="37.14,22 40.86,41 44.57,22" fill="white"/>
+      <polygon points="44.57,22 48.29,41 52,22" fill="white"/>
+      <!-- Bottom teeth — offset by 3.71px so peaks sit between top teeth, tips at y=35 -->
+      <polygon points="-3.71,66 0,35 3.71,66" fill="white"/>
+      <polygon points="3.71,66 7.43,35 11.14,66" fill="white"/>
+      <polygon points="11.14,66 14.86,35 18.57,66" fill="white"/>
+      <polygon points="18.57,66 22.29,35 25.99,66" fill="white"/>
+      <polygon points="25.99,66 29.71,35 33.42,66" fill="white"/>
+      <polygon points="33.42,66 37.14,35 40.85,66" fill="white"/>
+      <polygon points="40.85,66 44.57,35 48.28,66" fill="white"/>
+      <polygon points="48.28,66 52,35 55.71,66" fill="white"/>
+    </g>
   </svg>
 </button>
 
