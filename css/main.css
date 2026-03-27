@@ -369,8 +369,12 @@ body {
   --tongue-scale-x: 1;
   --tongue-scale-y: 1;
   --tongue-tip-scale: 1;
+  --tongue-opacity: 1;
+  --teeth-opacity: 1;
   --teeth-top-shift: 0px;
   --teeth-bottom-shift: 0px;
+  --mouth-fill-opacity: 0;
+  --mouth-depth-opacity: 1;
   --gloss-shift-y: 0px;
 }
 
@@ -444,7 +448,8 @@ body {
 }
 
 .bubble-mouth-shell,
-.bubble-mouth-depth {
+.bubble-mouth-depth,
+.bubble-mouth-fill {
   transform: translateY(var(--mouth-shift-y)) scaleX(var(--mouth-scale-x)) scaleY(var(--mouth-scale-y));
 }
 
@@ -455,6 +460,7 @@ body {
     rotate(var(--tongue-rotate))
     scaleX(var(--tongue-scale-x))
     scaleY(var(--tongue-scale-y));
+  opacity: var(--tongue-opacity);
 }
 
 .bubble-tongue-tip {
@@ -465,16 +471,26 @@ body {
 }
 
 .bubble-teeth-top {
+  opacity: var(--teeth-opacity);
   transform: translateY(var(--teeth-top-shift));
 }
 
 .bubble-teeth-bottom {
+  opacity: var(--teeth-opacity);
   transform: translateY(var(--teeth-bottom-shift));
 }
 
 .bubble-gloss-main,
 .bubble-gloss-small {
   transform: translateY(var(--gloss-shift-y));
+}
+
+.bubble-mouth-fill {
+  opacity: var(--mouth-fill-opacity);
+}
+
+.bubble-mouth-depth {
+  opacity: var(--mouth-depth-opacity);
 }
 
 @keyframes bubble-idle-float {
