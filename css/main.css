@@ -7,6 +7,11 @@
   --muted: #8888a0;
   --border: #e4e4ec;
 
+  /* Scroll-linked ambient (0–1); set by js/iris-tide.js */
+  --iris-tide: 0;
+  /* Same scroll math; always updated for top progress bar */
+  --scroll-progress: 0;
+
   /* Iridescent palette */
   --ir-1: #c0b8f8; /* lavender */
   --ir-2: #f0b8d8; /* rose */
@@ -17,7 +22,25 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+/* Iris scroll progress — thin strip at top of viewport */
+html::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 51;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--ir-1), var(--ir-2), var(--ir-3), var(--ir-6));
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left center;
+}
 body {
   background: var(--bg);
   color: var(--ink);
@@ -142,6 +165,29 @@ body {
 }
 .nav-link:hover { color: var(--ink); }
 
+.nav-link.nav-link-active {
+  font-weight: 600;
+  background: linear-gradient(135deg,
+    #a890f8 0%, #f090c8 20%, #90d0f8 40%,
+    #a890f8 60%, #f090c8 80%, #90d0f8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: iris-slide 6s linear infinite;
+  position: relative;
+}
+.nav-link.nav-link-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--ir-1), var(--ir-2), var(--ir-3));
+}
+
 /* Section number */
 .num {
   font-family: 'Sora', sans-serif;
@@ -222,22 +268,37 @@ body {
   background: linear-gradient(90deg, transparent, var(--border), transparent);
 }
 
-/* Hero shimmer bg */
+/* Hero shimmer bg — scroll tide shifts hue + parallax (see --iris-tide) */
 .hero-shimmer {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  filter: hue-rotate(calc(var(--iris-tide, 0) * 20deg));
 }
 .shimmer-orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(100px);
   animation: float-orb 15s ease-in-out infinite alternate;
+  --iris-dx: 0px;
+  --iris-dy: 0px;
+}
+.hero-shimmer .shimmer-orb:nth-child(1) {
+  --iris-dx: calc(var(--iris-tide, 0) * 32px);
+  --iris-dy: calc(var(--iris-tide, 0) * -22px);
+}
+.hero-shimmer .shimmer-orb:nth-child(2) {
+  --iris-dx: calc(var(--iris-tide, 0) * -24px);
+  --iris-dy: calc(var(--iris-tide, 0) * 28px);
+}
+.hero-shimmer .shimmer-orb:nth-child(3) {
+  --iris-dx: calc(var(--iris-tide, 0) * 18px);
+  --iris-dy: calc(var(--iris-tide, 0) * 20px);
 }
 @keyframes float-orb {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(40px, -30px); }
+  0% { transform: translate(var(--iris-dx, 0px), var(--iris-dy, 0px)) translate(0, 0); }
+  100% { transform: translate(var(--iris-dx, 0px), var(--iris-dy, 0px)) translate(40px, -30px); }
 }
 
 /* Fancy section heading */
