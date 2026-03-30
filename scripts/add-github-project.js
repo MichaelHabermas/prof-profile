@@ -39,19 +39,23 @@ function normalizeOwnerRepo(owner, repo) {
   return `${String(owner).trim().toLowerCase()}/${String(repo).trim().toLowerCase()}`;
 }
 
+function stripGitSuffix(repoSegment) {
+  return String(repoSegment).replace(/\.git$/i, '');
+}
+
 function parseGithubRepoUrl(rawUrl) {
   const url = rawUrl.trim();
 
   // Handle ssh: git@github.com:owner/repo.git
   const sshMatch = url.match(/^git@github\.com:([^/]+)\/(.+?)(?:\.git)?$/i);
   if (sshMatch) {
-    return { owner: sshMatch[1], repo: sshMatch[2].replace(/\.git$/i, '') };
+    return { owner: sshMatch[1], repo: stripGitSuffix(sshMatch[2]) };
   }
 
   // Handle https://github.com/owner/repo(.git)
   const httpsMatch = url.match(/^https?:\/\/github\.com\/([^/]+)\/(.+?)(?:\.git)?\/?$/i);
   if (httpsMatch) {
-    return { owner: httpsMatch[1], repo: httpsMatch[2].replace(/\.git$/i, '') };
+    return { owner: httpsMatch[1], repo: stripGitSuffix(httpsMatch[2]) };
   }
 
   throw new Error(`Unrecognized GitHub repo URL format: ${rawUrl}`);
@@ -96,7 +100,7 @@ async function main() {
   const argv = process.argv.slice(2);
   if (argv.length < 1) usage(1);
 
-  const rawUrl = argv.find(a => !a.startsWith('-'));
+  const rawUrl = argv.find((a) => !a.startsWith('-'));
   const dryRun = argv.includes('--dry-run') || argv.includes('-n');
   if (!rawUrl) usage(1);
 
@@ -112,36 +116,32 @@ async function main() {
     fetchJson(apiTopicsUrl).catch(() => ({ names: [] })),
   ]);
 
-  const repoName = repoData && repoData.name ? repoData.name : repo;
-  const repoDescription = repoData && repoData.description ? repoData.description : 'New project';
-  const repoHtmlUrl = repoData && repoData.html_url ? repoData.html_url : `https://github.com/${owner}/${repo}`;
-  const repoOwnerLogin = repoData && repoData.owner && repoData.owner.login ? repoData.owner.login : owner;
-  const topics = topicsData && (topicsData.names || topicsData.topics)
-    ? (topicsData.names || topicsData.topics)
+  const repoName = repoData?.name ?? repo;
+  const repoDescription = repoData?.description ?? 'New project';
+  const repoHtmlUrl = repoData?.html_url ?? `https://github.com/${owner}/${repo}`;
+  const repoOwnerLogin = repoData?.owner?.login ?? owner;
+  const topics = topicsData
+    ? (topicsData.names || topicsData.topics || [])
     : [];
 
   const TOPIC_LIMIT = 8;
-  const topicPills = Array.isArray(topics) && topics.length
-    ? topics.slice(0, TOPIC_LIMIT)
-    : [];
+  const topicPills = topics.slice(0, TOPIC_LIMIT);
 
   const pillsHtml = topicPills.length
-    ? `<div class="flex flex-wrap gap-2 mb-6">\n${topicPills.map(t => `  <span class="pill">${escapeHtml(t)}</span>`).join('\n')}\n</div>`
+    ? `\n        <div class="flex flex-wrap gap-2 mt-4">\n${topicPills.map(t => `          <span class="pill">${escapeHtml(t)}</span>`).join('\n')}\n        </div>`
     : '';
 
   const cardHtml = `
-<div class="iris-border card p-8 flex flex-col justify-between">
-  <div>
-    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">${escapeHtml(repoOwnerLogin)} · Repository</div>
-    <h3 style="font-size:26px;font-weight:700;letter-spacing:-0.5px;margin-bottom:16px">${escapeHtml(repoName)}</h3>
-    <p style="font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:20px">
-      ${escapeHtml(repoDescription)}
-    </p>${pillsHtml ? `\n${pillsHtml}` : ''}
+<article class="project-card iris-border card work-card overflow-hidden">
+  <div class="work-card-body p-8 flex flex-col h-full min-h-0">
+    <div class="work-card-main flex flex-col flex-1 min-h-0">
+      <div class="project-kicker">${escapeHtml(repoOwnerLogin)} · Repository</div>
+      <h3 class="project-title">${escapeHtml(repoName)}</h3>
+      <p class="project-desc work-card-scroll">${escapeHtml(repoDescription)}</p>${pillsHtml}
+    </div>
+    <a href="${escapeHtml(repoHtmlUrl)}" target="_blank" rel="noopener noreferrer" class="project-link mt-auto pt-6 shrink-0">View on GitHub →</a>
   </div>
-  <a href="${escapeHtml(repoHtmlUrl)}" target="_blank" rel="noopener noreferrer" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:24px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#a890f8'" onmouseout="this.style.color='var(--muted)'">
-    View on GitHub →
-  </a>
-</div>
+</article>
 `.trim();
 
   const html = fs.readFileSync(INDEX_PATH, 'utf8');
@@ -156,7 +156,7 @@ async function main() {
   const endLineStart = html.lastIndexOf('\n', endIndex - 1) + 1;
 
   const sectionStart = startLineEnd === -1 ? startIndex + START_TOKEN.length : startLineEnd + 1;
-  const sectionEnd = endIndex === -1 ? endIndex : endLineStart;
+  const sectionEnd = endLineStart;
   const section = html.slice(sectionStart, sectionEnd);
   const dedupeNeedle = `<!-- auto-project: ${ownerRepoKey} -->`;
   if (section.includes(dedupeNeedle)) {
