@@ -62,14 +62,32 @@ The header shows **which section you’re in**, aligned with scroll-linked tide 
 
 ---
 
-## Plausible next (not shipped): cursor-linked specular on hero frames
+## Hero frame specular (pointer lens)
+
+### Added
+
+- **`js/hero-specular.js`** — **`initHeroSpecular()`** attaches **`pointermove`** / **`pointerleave`** to each **`.hero-frame`**, writing **`--focus-x`**, **`--focus-y`** ( **0–100%** within the frame ) and **`--focus-alpha`** (**`1`** on move, **`0`** on leave ).
+- **Off** when **`prefers-reduced-motion: reduce`** or **`(pointer: coarse)`** (typical touch); **`change`** listeners re-bind.
+- **`.hero-frame::before`** — **radial-gradient** “lens” at **`var(--focus-x) var(--focus-y)`**, **`mix-blend-mode: soft-light`**, **`z-index: 2`**; existing **sweep** stays **`::after`** at **`z-index: 3`**; **`img`** at **`z-index: 1`**.
+
+### Why
+
+Machine-vision / **focus** metaphor on the hero mosaic without new assets; complements the static hover sweep.
+
+### Implementation
+
+- [`js/hero-specular.js`](js/hero-specular.js), [`js/main.js`](js/main.js), [`css/main.css`](css/main.css) ( **`.hero-frame`** + **`::before`** stack ).
+
+---
+
+## Plausible next (not shipped): iridescent `:focus-visible` rings
 
 ### Idea
 
-Drive **`--focus-x` / `--focus-y`** from pointer position over **`.hero-gallery`** so a **soft radial specular** or **focus-ring-style** highlight follows the cursor (machine-vision metaphor); degrade on **touch** / **coarse pointer** and respect **`prefers-reduced-motion`**.
+Global styles so keyboard focus on links and buttons uses a **clear, on-brand** outline or box-shadow ( **iris** / **pearl** gradient or multi-stop glow ), without changing mouse click appearance.
 
 ### Why (if we build it)
 
-Turns the hero mosaic from **hover-only** shine into a **responsive “lens”** without changing assets.
+Matches accessibility expectations to the same visual language as the rest of the site.
 
 ---
