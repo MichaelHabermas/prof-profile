@@ -127,19 +127,21 @@ async function main() {
   const TOPIC_LIMIT = 8;
   const topicPills = topics.slice(0, TOPIC_LIMIT);
 
-  const pillsHtml = topicPills.length
-    ? `\n        <div class="flex flex-wrap gap-2 mt-4">\n${topicPills.map(t => `          <span class="pill">${escapeHtml(t)}</span>`).join('\n')}\n        </div>`
+  const pillsBlock = topicPills.length
+    ? `      <div class="flex flex-wrap gap-2">\n${topicPills.map(t => `        <span class="pill">${escapeHtml(t)}</span>`).join('\n')}\n      </div>\n`
     : '';
 
   const cardHtml = `
 <article class="project-card iris-border card work-card overflow-hidden">
-  <div class="work-card-body p-8 flex flex-col h-full min-h-0">
-    <div class="work-card-main flex flex-col flex-1 min-h-0">
+  <div class="work-card-body p-8 flex flex-col">
+    <div class="work-card-main flex flex-col">
       <div class="project-kicker">${escapeHtml(repoOwnerLogin)} · Repository</div>
       <h3 class="project-title">${escapeHtml(repoName)}</h3>
-      <p class="project-desc work-card-scroll">${escapeHtml(repoDescription)}</p>${pillsHtml}
+      <p class="project-desc">${escapeHtml(repoDescription)}</p>
     </div>
-    <a href="${escapeHtml(repoHtmlUrl)}" target="_blank" rel="noopener noreferrer" class="project-link mt-auto pt-6 shrink-0">View on GitHub →</a>
+    <div class="work-card-foot">
+${pillsBlock}      <a href="${escapeHtml(repoHtmlUrl)}" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub →</a>
+    </div>
   </div>
 </article>
 `.trim();

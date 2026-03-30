@@ -95,7 +95,7 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
 
       <div class="iris-border card p-6">
-        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px" class="iris-text">AI & Agentic</div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px" class="iris-text">AI &amp; Agentic</div>
         <div class="flex flex-wrap gap-2">
           <span class="pill featured">LangChain</span>
           <span class="pill featured">LangSmith</span>
@@ -142,7 +142,7 @@
       </div>
 
       <div class="iris-border card p-6">
-        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Data & Infra</div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Data &amp; Infra</div>
         <div class="flex flex-wrap gap-2">
           <span class="pill">PostgreSQL</span>
           <span class="pill">MongoDB</span>
@@ -169,83 +169,61 @@
       <h2 class="section-heading text-3xl">Selected Work</h2>
       <div class="h-px flex-1" style="background:var(--border)"></div>
     </div>
-    <p class="work-lede">Production systems, AI-native tools, and mobile apps — each with a clear role and a measurable footprint.</p>
 
     <div class="work-grid">
 
       <!-- Aurora -->
       <article class="project-card iris-border card work-card overflow-hidden">
-        <div class="work-card-body p-8 flex flex-col h-full min-h-0">
-          <div class="work-card-main flex flex-col flex-1 min-h-0">
+        <div class="work-card-body p-8 flex flex-col">
+          <div class="work-card-main flex flex-col">
             <div class="project-kicker">Zebra Technologies · Production</div>
             <h3 class="project-title">Aurora Focus</h3>
-            <p class="project-desc work-card-scroll">
+            <p class="project-desc">
               High-performance browser-based HMI for Machine Vision hardware. Deep Learning OCR tool with Pixi.js real-time canvas rendering. Low-latency responsiveness for industrial scanning. Scrum Master for nine-person cross-functional team.
             </p>
-            <div class="flex flex-wrap gap-2 mb-4">
+          </div>
+          <div class="work-card-foot">
+            <div class="flex flex-wrap gap-2">
               <span class="pill">React</span><span class="pill">TypeScript</span><span class="pill">Electron</span><span class="pill">RxJS</span><span class="pill">Pixi.js</span>
             </div>
-          </div>
-          <div class="grid grid-cols-3 gap-3 mt-auto pt-2 shrink-0">
-            <div class="stat-box stat-box--compact">
-              <div style="font-family:'DM Serif Display',serif;font-size:26px;font-style:italic" class="iris-text">Low</div>
-              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">Latency</div>
-            </div>
-            <div class="stat-box stat-box--compact">
-              <div style="font-family:'DM Serif Display',serif;font-size:26px;font-style:italic" class="iris-text">9</div>
-              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">Team</div>
-            </div>
-            <div class="stat-box stat-box--compact">
-              <div style="font-family:'DM Serif Display',serif;font-size:26px;font-style:italic" class="iris-text">100%</div>
-              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">Compliant</div>
-            </div>
+            <a href="https://www.zebra.com/us/en/software/machine-vision-and-fixed-industrial-scanning-software/aurora-focus.html" target="_blank" rel="noopener noreferrer" class="project-link">Product page →</a>
           </div>
         </div>
       </article>
 
       <!-- Speaq -->
       <article class="project-card iris-border card work-card overflow-hidden">
-        <div class="work-card-body p-8 flex flex-col h-full min-h-0">
-          <div class="work-card-main flex flex-col flex-1 min-h-0">
+        <div class="work-card-body p-8 flex flex-col">
+          <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Mobile</div>
             <h3 class="project-title">Speaq</h3>
-            <p class="project-desc work-card-scroll">
+            <p class="project-desc">
               Language-learning iOS/Android app. Figma to MVP. AWS Polly backend for real-time multilingual speech synthesis.
             </p>
+          </div>
+          <div class="work-card-foot">
             <div class="flex flex-wrap gap-2">
               <span class="pill">React Native</span><span class="pill">Expo</span><span class="pill">Python</span><span class="pill">AWS Polly</span>
             </div>
+            <a href="https://github.com/MichaelHabermas" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub →</a>
           </div>
-          <a href="https://github.com/MichaelHabermas" target="_blank" rel="noopener noreferrer" class="project-link mt-auto pt-6 shrink-0">View on GitHub →</a>
         </div>
       </article>
 
       <!-- CollabBoard -->
       <article class="project-card iris-border card work-card overflow-hidden">
-        <div class="work-card-body p-8 flex flex-col h-full min-h-0">
-          <div class="work-card-main flex flex-col flex-1 min-h-0">
+        <div class="work-card-body p-8 flex flex-col">
+          <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Lead Developer</div>
             <h3 class="project-title project-title--tight">CollabBoard</h3>
             <div class="project-subtitle iris-text">Miro Clone · AI Board Agent</div>
-            <p class="project-desc work-card-scroll">
+            <p class="project-desc">
               Production-scale collaborative whiteboard. AI Agent (Kimi 2.5 + Groq) for natural language board manipulation. Dual-layer Firebase sync — cursors under 50ms, Firestore for persistent state. 70% AI-assisted development with 80%+ test coverage.
             </p>
-            <div class="flex flex-wrap gap-2 mb-4">
-              <span class="pill featured">AI Agent</span><span class="pill">React 19</span><span class="pill">Konva.js</span><span class="pill">Bun</span><span class="pill">Firebase</span><span class="pill">Vitest</span><span class="pill">Playwright</span>
-            </div>
           </div>
-          <div class="grid grid-cols-3 gap-3 mt-auto pt-2 shrink-0">
-            <div class="stat-box stat-box--compact">
-              <div style="font-family:'DM Serif Display',serif;font-size:22px;font-style:italic" class="iris-text">60fps</div>
-              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">500+ objects</div>
-            </div>
-            <div class="stat-box stat-box--compact">
-              <div style="font-family:'DM Serif Display',serif;font-size:22px;font-style:italic" class="iris-text">&lt;50ms</div>
-              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">Cursor sync</div>
-            </div>
-            <div class="stat-box stat-box--compact">
-              <div style="font-family:'DM Serif Display',serif;font-size:22px;font-style:italic" class="iris-text">80%+</div>
-              <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">Test coverage</div>
+          <div class="work-card-foot">
+            <div class="flex flex-wrap gap-2">
+              <span class="pill featured">AI Agent</span><span class="pill">React 19</span><span class="pill">Konva.js</span><span class="pill">Bun</span><span class="pill">Firebase</span><span class="pill">Vitest</span><span class="pill">Playwright</span>
             </div>
           </div>
         </div>
@@ -254,21 +232,23 @@
       <!-- AUTO_PROJECTS_START -->
       <!-- auto-project: michaelhabermas/chatbot -->
       <article class="project-card iris-border card work-card overflow-hidden">
-        <div class="work-card-body p-8 flex flex-col h-full min-h-0">
-          <div class="work-card-main flex flex-col flex-1 min-h-0">
+        <div class="work-card-body p-8 flex flex-col">
+          <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Web</div>
             <h3 class="project-title project-title--tight">RAGatha Ch'Bot</h3>
             <div class="project-subtitle iris-text">Browser RAG · No backend</div>
-            <p class="project-desc work-card-scroll">
+            <p class="project-desc">
               Upload PDFs, DOCX, Markdown, or plain text; chunk and index locally with TF-IDF; retrieve context and stream answers through any OpenAI-compatible API. Documents and index live in IndexedDB—no server.
             </p>
+          </div>
+          <div class="work-card-foot">
             <div class="flex flex-wrap gap-2">
               <span class="pill">Vanilla JS</span><span class="pill">pdf.js</span><span class="pill">TF-IDF</span><span class="pill">IndexedDB</span>
             </div>
-          </div>
-          <div class="project-actions mt-auto pt-4 shrink-0">
-            <a href="https://ragithachbot.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">Live demo →</a>
-            <a href="https://github.com/MichaelHabermas/chatbot" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub →</a>
+            <div class="project-actions">
+              <a href="https://ragithachbot.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-link">Live demo →</a>
+              <a href="https://github.com/MichaelHabermas/chatbot" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub →</a>
+            </div>
           </div>
         </div>
       </article>
