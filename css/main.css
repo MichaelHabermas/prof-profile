@@ -63,10 +63,12 @@ body {
   100% { --angle: 360deg; }
 }
 
-/* Selected Work cards: 2s full opacity, then 3s fade-out while hover holds */
+/* Selected Work cards: 1s fade-in, then 3s fade-out while hover holds (4s total) */
 @keyframes iris-border-work-opacity {
-  0%,
-  40% {
+  0% {
+    opacity: 0;
+  }
+  25% {
     opacity: 1;
   }
   100% {
@@ -102,7 +104,7 @@ body {
 .work-grid .project-card.iris-border:hover::before {
   animation:
     iris-rotate 6s linear infinite,
-    iris-border-work-opacity var(--iris-work-border-duration, 5s) linear forwards;
+    iris-border-work-opacity var(--iris-work-border-duration, 4s) linear forwards;
   transition: none;
 }
 
@@ -375,8 +377,8 @@ body {
 /* ===== SELECTED WORK — uniform grid ===== */
 
 #projects {
-  /* 2s hold + 3s fade (keyframes: 0–40% hold, 40–100% fade) */
-  --iris-work-border-duration: 5s;
+  /* 1s fade-in + 3s fade-out (keyframes: 0–25% in, 25–100% out) */
+  --iris-work-border-duration: 4s;
   position: relative;
   overflow: hidden;
 }
