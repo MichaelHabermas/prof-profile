@@ -9,7 +9,7 @@ export const KNOWLEDGE_BASE = [
 
   `Michael's data and infrastructure skills include: PostgreSQL, MongoDB, Firebase, Prisma, AWS, Vercel, Playwright, Vitest, and CI/CD pipelines.`,
 
-  `Aurora Focus is a high-performance browser-based HMI (Human-Machine Interface) for Machine Vision hardware at Zebra Technologies. It features a Deep Learning OCR tool with Pixi.js real-time canvas rendering and low-latency responsiveness for industrial scanning. Michael served as Scrum Master for the nine-person cross-functional team. Technologies: React, TypeScript, Electron, RxJS, Pixi.js.`,
+  `Aurora Focus™ runs on Zebra’s fixed industrial scanners and smart cameras, and comes ready-made for specific tasks like barcode reading and verification, OCR, and presence/absence vision inspection. It features a Deep Learning OCR tool with Pixi.js real-time canvas rendering and low-latency responsiveness for industrial scanning. Michael served as Scrum Master for the nine-person cross-functional team. Technologies: React, TypeScript, Electron, RxJS, Pixi.js.`,
 
   `Speaq is a personal language-learning iOS/Android mobile app. Michael built it from Figma to MVP. It uses AWS Polly backend for real-time multilingual speech synthesis. Technologies: React Native, Expo, Python, AWS Polly.`,
 
