@@ -1369,6 +1369,18 @@ body {
 }
 .chat-msg.assistant.typing { color: var(--muted); }
 
+.chat-context-hint {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 18px 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  line-height: 1.35;
+}
+
 #chat-suggestions {
   position: relative;
   z-index: 1;

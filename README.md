@@ -15,12 +15,13 @@ Personal portfolio as a static single-page site:
 |--------|------|
 | `js/main.js` | Entry: wires feature modules |
 | `js/iris-tide.js` | Scroll-linked `--iris-tide` and top progress sliver |
-| `js/nav-section-sync.js` | Scroll-spy nav (`nav-link-active`) |
+| `js/nav-section-sync.js` | Scroll-spy nav (`nav-link-active`); optional section callback |
 | `js/hero-specular.js` | Pointer “lens” on hero frames |
 | `js/scroll-reveal.js` | Section entrance animation |
-| `js/chat/*` | Floating chat UI + Netlify Function client |
+| `js/chat/attention-suggestions.js` | Section- and project-aware chat starter chips |
+| `js/chat/*` | Floating chat UI (bubble animator, retriever), Netlify Function client |
 
-See **[FEATURES.md](FEATURES.md)** for implementation notes (scroll tide, nav sync, hero specular, etc.).
+See **[FEATURES.md](FEATURES.md)** for implementation notes (scroll tide, nav sync, attention-aware chat suggestions, hero specular, etc.).
 
 ### Backend
 

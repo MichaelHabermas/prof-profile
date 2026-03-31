@@ -131,8 +131,10 @@ async function main() {
     ? `      <div class="flex flex-wrap gap-2">\n${topicPills.map(t => `        <span class="pill">${escapeHtml(t)}</span>`).join('\n')}\n      </div>\n`
     : '';
 
+  const chatTopicAttr = ownerRepoKey.replace(/\//g, '-');
+
   const cardHtml = `
-<article class="project-card iris-border card work-card overflow-hidden">
+<article class="project-card iris-border card work-card overflow-hidden" data-chat-topic="${escapeHtml(chatTopicAttr)}">
   <div class="work-card-body p-8 flex flex-col">
     <div class="work-card-main flex flex-col">
       <div class="project-kicker">${escapeHtml(repoOwnerLogin)} · Repository</div>

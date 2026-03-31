@@ -1,7 +1,8 @@
 /**
  * Highlights the nav link for the section that owns the "reading line" below the fixed nav.
+ * @param {(sectionId: string) => void} [onActiveSectionChange] — e.g. attention-aware chat chips
  */
-export function initNavSectionSync() {
+export function initNavSectionSync(onActiveSectionChange) {
   const links = Array.from(document.querySelectorAll('nav .nav-link[href^="#"]'));
   if (!links.length) return;
 
@@ -28,6 +29,9 @@ export function initNavSectionSync() {
       if (section.getBoundingClientRect().top <= LINE) current = section;
     }
     applyActive(current.id);
+    if (typeof onActiveSectionChange === 'function') {
+      onActiveSectionChange(current.id);
+    }
   }
 
   let raf = 0;

@@ -6,7 +6,8 @@ const POLLINATIONS_URL = 'https://text.pollinations.ai/';
 const DEFAULT_ASSISTANT_MESSAGE =
   "Hey! I'm Michael's AI assistant — ask me about his experience, projects, skills, or anything on his resume.";
 
-export function initChatApp() {
+export function initChatApp(options = {}) {
+  const { refreshAttentionSuggestions } = options;
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const msgs = document.getElementById('chat-messages');
@@ -59,6 +60,9 @@ export function initChatApp() {
     msgs.innerHTML = '';
     addMsg('assistant', DEFAULT_ASSISTANT_MESSAGE);
     suggestions.style.display = 'flex';
+    if (typeof refreshAttentionSuggestions === 'function') {
+      refreshAttentionSuggestions();
+    }
     input.value = '';
     input.focus();
   }

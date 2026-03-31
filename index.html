@@ -173,7 +173,7 @@
     <div class="work-grid">
 
       <!-- Aurora -->
-      <article class="project-card iris-border card work-card overflow-hidden">
+      <article class="project-card iris-border card work-card overflow-hidden" data-chat-topic="aurora">
         <div class="work-card-body p-8 flex flex-col">
           <div class="work-card-main flex flex-col">
             <div class="project-kicker">Zebra Technologies · Production</div>
@@ -192,7 +192,7 @@
       </article>
 
       <!-- Speaq -->
-      <article class="project-card iris-border card work-card overflow-hidden">
+      <article class="project-card iris-border card work-card overflow-hidden" data-chat-topic="speaq">
         <div class="work-card-body p-8 flex flex-col">
           <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Mobile</div>
@@ -211,7 +211,7 @@
       </article>
 
       <!-- CollabBoard -->
-      <article class="project-card iris-border card work-card overflow-hidden">
+      <article class="project-card iris-border card work-card overflow-hidden" data-chat-topic="collabboard">
         <div class="work-card-body p-8 flex flex-col">
           <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Lead Developer</div>
@@ -235,7 +235,7 @@
 
       <!-- AUTO_PROJECTS_START -->
       <!-- auto-project: michaelhabermas/chatbot -->
-      <article class="project-card iris-border card work-card overflow-hidden">
+      <article class="project-card iris-border card work-card overflow-hidden" data-chat-topic="ragatha">
         <div class="work-card-body p-8 flex flex-col">
           <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Web</div>
@@ -257,7 +257,7 @@
         </div>
       </article>
       <!-- auto-project: michaelhabermas/chatty-be -->
-      <article class="project-card iris-border card work-card overflow-hidden">
+      <article class="project-card iris-border card work-card overflow-hidden" data-chat-topic="chatty">
         <div class="work-card-body p-8 flex flex-col">
           <div class="work-card-main flex flex-col">
             <div class="project-kicker">Personal · Full stack</div>
@@ -519,13 +519,9 @@
     </div>
   </div>
 
-  <!-- Suggested questions -->
-  <div id="chat-suggestions">
-    <button class="chat-suggestion">What AI tools has he worked with?</button>
-    <button class="chat-suggestion">Tell me about Aurora Focus</button>
-    <button class="chat-suggestion">What's his tech stack?</button>
-    <button class="chat-suggestion">Most recent projects?</button>
-  </div>
+  <!-- Context + suggested questions (chips rebuilt by js/chat/attention-suggestions.js) -->
+  <p id="chat-context-hint" class="chat-context-hint" hidden>Intro</p>
+  <div id="chat-suggestions"></div>
 
   <!-- Input -->
   <div id="chat-input-row">

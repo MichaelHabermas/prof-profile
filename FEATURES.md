@@ -47,8 +47,9 @@ Gives a **single glance** of position in the page; matches **pearl** / **iris** 
 
 ### Added
 
-- **`js/nav-section-sync.js`** — **`initNavSectionSync()`** maps **`nav .nav-link[href^="#"]`** to **`#hero`**, **`#skills`**, **`#projects`**, **`#experience`**.
+- **`js/nav-section-sync.js`** — **`initNavSectionSync(onActiveSectionChange?)`** maps **`nav .nav-link[href^="#"]`** to **`#hero`**, **`#skills`**, **`#projects`**, **`#experience`**.
 - **Active section** is the **last** in document order whose **`getBoundingClientRect().top`** is at or above a fixed **reading line** (**112px** from the top of the viewport, below the fixed nav). Updated on **scroll** / **resize** via **`requestAnimationFrame`** throttling.
+- Optional **`onActiveSectionChange(sectionId)`** — e.g. attention-aware chat suggestion chips stay aligned with the same section as the nav highlight.
 - **Active link** gets class **`nav-link-active`** and **`aria-current="location"`**; inactive links lose both.
 - **`html { scroll-padding-top: 96px; }`** so in-page anchors (**`#skills`**, etc.) land **below** the fixed nav.
 
@@ -59,6 +60,26 @@ The header shows **which section you’re in**, aligned with scroll-linked tide 
 ### Implementation
 
 - [`js/nav-section-sync.js`](js/nav-section-sync.js), [`js/main.js`](js/main.js), [`css/main.css`](css/main.css) ( **`.nav-link-active`** + pearl underline **`::after`** ).
+
+---
+
+## Attention-aware chat suggestions
+
+### Added
+
+- **`js/chat/attention-suggestions.js`** — **`initAttentionChatSuggestions()`** rebuilds **`#chat-suggestions`** with **section-specific** starter prompts (**hero**, **skills**, **projects**, **experience**).
+- **`initNavSectionSync(attentionChat.onSectionChange)`** — suggestion chips track the **same** active section as scroll-spy nav (reading line **112px**).
+- **Projects grid** — when **`#projects`** is active and **`prefers-reduced-motion`** is not reduced: **`IntersectionObserver`** on **`.project-card[data-chat-topic]`** (with thresholds for smooth ratio updates) picks the card with the **largest visible ratio** above **~12%**; **`PROJECT_SUGGESTIONS`** swaps in prompts keyed by **`data-chat-topic`** (e.g. aurora, speaq, collabboard, ragatha, chatty). **`#chat-context-hint`** can show **`Focus · {project title}`**.
+- **`prefers-reduced-motion: reduce`** — no per-project focus; **projects** uses the generic project prompt set; intersection wiring is skipped.
+- **Chat reset** — **`initChatApp({ refreshAttentionSuggestions })`** calls **`refresh()`** after clearing messages so chips match the current section again.
+
+### Why
+
+Starter questions stay **relevant to where the visitor is reading**, and in **Selected Work** they can follow **which project card** is in view—without manual UI for “context.”
+
+### Implementation
+
+- [`js/chat/attention-suggestions.js`](js/chat/attention-suggestions.js); wiring in [`js/main.js`](js/main.js); optional refresh from [`js/chat/chat-app.js`](js/chat/chat-app.js) on reset.
 
 ---
 
