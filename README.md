@@ -2,29 +2,45 @@
 
 ## Overview
 
-Personal portfolio website built as a static single-page project:
+Personal portfolio as a static single-page site:
 
-- HTML5
-- Tailwind CSS (via CDN)
-- Vanilla JavaScript (no framework)
-- Served directly (no build step)
+- **HTML5** — single `index.html`
+- **Tailwind CSS** (CDN) for layout utilities; **custom design system** in `css/main.css` (tokens, iridescent hero, components)
+- **Vanilla ES modules** under `js/` (no framework)
+- **No build step** — serve files as-is
+
+### JavaScript modules
+
+| Module | Role |
+|--------|------|
+| `js/main.js` | Entry: wires feature modules |
+| `js/iris-tide.js` | Scroll-linked `--iris-tide` and top progress sliver |
+| `js/nav-section-sync.js` | Scroll-spy nav (`nav-link-active`) |
+| `js/hero-specular.js` | Pointer “lens” on hero frames |
+| `js/scroll-reveal.js` | Section entrance animation |
+| `js/chat/*` | Floating chat UI + Netlify Function client |
+
+See **[FEATURES.md](FEATURES.md)** for implementation notes (scroll tide, nav sync, hero specular, etc.).
+
+### Backend
+
+- **Netlify Function** at `netlify/functions/chat.js` — exposed as `/.netlify/functions/chat` in deployment.
 
 ## Local preview
 
-JavaScript is split into ES modules (`js/main.js`); use a local server so imports resolve reliably (opening `index.html` via `file://` may not load modules in every browser).
+ES modules need a local server (`file://` often blocks imports).
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000/` or `http://localhost:8000/index.html`.
+Open `http://localhost:8000/` or `http://localhost:8000/index.html`.
 
-## Local chatbot testing (Netlify Functions)
+## Local chat testing (Netlify Functions)
 
-The chatbot calls a Netlify Function endpoint at `/.netlify/functions/chat`.
-If you run a plain static server (for example `python3 -m http.server` or VS Code Live Server on `:5500`), that function route will return `404`/`405` and chat will not work correctly.
+The chat client posts to `/.netlify/functions/chat`. A plain static server will not serve that route, so chat will fail there.
 
-Use Netlify dev for chatbot testing:
+Use Netlify CLI:
 
 ```bash
 # one-time install
@@ -34,11 +50,11 @@ npm i -g netlify-cli
 netlify dev
 ```
 
-Open the URL printed by Netlify CLI (usually `http://localhost:8888`) and test chat there.
+Use the URL Netlify prints (often `http://localhost:8888`).
 
 ### Quick function health check
 
-With `netlify dev` running, test the function directly:
+With `netlify dev` running:
 
 ```bash
 curl -i -X POST "http://localhost:8888/.netlify/functions/chat" \
@@ -46,27 +62,25 @@ curl -i -X POST "http://localhost:8888/.netlify/functions/chat" \
   --data '{"messages":[{"role":"user","content":"hello"}],"model":"openai","private":true}'
 ```
 
-Expected result: HTTP 200 and a text response body.
+Expected: HTTP 200 and a text response body.
 
 ## Extra pages
 
 - `docs/1.html`
 - `docs/Michael_Habermas_CV.pdf`
 
-## Adding new “Selected Work” cards
+## Adding “Selected Work” cards
 
-The “Selected Work” section is mostly curated static HTML in `index.html`.
-
-To support quick adding, `index.html` includes marker comments inside the projects grid:
+The projects grid is curated HTML in `index.html`, with inject markers:
 
 - `<!-- AUTO_PROJECTS_START -->`
 - `<!-- AUTO_PROJECTS_END -->`
 
-The helper script inserts a new project card between those markers.
+A helper script inserts new cards between those markers.
 
 ## Script: `scripts/add-github-project.js`
 
-Fetches repo metadata from the GitHub API (including `topics`) and injects a new card into `index.html`.
+Calls the GitHub API (including `topics`) and injects a project card into `index.html`.
 
 ### Usage
 
@@ -74,31 +88,29 @@ Fetches repo metadata from the GitHub API (including `topics`) and injects a new
 node scripts/add-github-project.js <github-repo-url> [--dry-run]
 ```
 
-### Supported GitHub repo URL formats
+### Supported repo URL formats
 
 - `https://github.com/<owner>/<repo>`
 - `https://github.com/<owner>/<repo>.git`
 - `git@github.com:<owner>/<repo>.git`
 
-### What gets added to the card
+### What the card includes
 
 - Title: repository name
-- Subtitle line: repo owner login
-- Description: repository description (fallback: `New project`)
-- Tech tags: GitHub `topics` (rendered as `.pill` elements)
+- Subtitle: owner login
+- Description: repo description (fallback: `New project`)
+- Tech tags: GitHub `topics` (`.pill` elements)
 - Link: repository URL
 
 ### Deduping
 
-The script checks for an existing injected card marker:
+Skips insert if a marker already exists:
 
 - `<!-- auto-project: <owner>/<repo> -->`
 
-If it finds one for that repo, it won’t insert a duplicate.
-
 ### `--dry-run`
 
-Use `--dry-run` to print the injected HTML instead of editing `index.html`:
+Prints the HTML without editing `index.html`:
 
 ```bash
 node scripts/add-github-project.js https://github.com/<owner>/<repo> --dry-run
@@ -106,4 +118,4 @@ node scripts/add-github-project.js https://github.com/<owner>/<repo> --dry-run
 
 ### Troubleshooting
 
-- If the script errors saying it can’t find the markers, ensure `index.html` still contains `AUTO_PROJECTS_START` and `AUTO_PROJECTS_END`.
+- If markers are missing, ensure `index.html` still contains `AUTO_PROJECTS_START` and `AUTO_PROJECTS_END`.
