@@ -17,7 +17,9 @@ export const KNOWLEDGE_BASE = [
 
   `RAGatha Ch'Bot is a browser-based RAG chatbot with no backend. Users upload PDFs, DOCX, Markdown, or plain text, which get chunked and indexed locally with TF-IDF. It retrieves context and streams answers through any OpenAI-compatible API. Documents and index live in IndexedDB. Technologies: Vanilla JS, pdf.js, TF-IDF, IndexedDB. Live demo: ragithachbot.netlify.app`,
 
-  `Michael has worked at Zebra Technologies as a Senior Software Development Engineer from February 2022 to present. His work includes principal-level architectural leadership, legacy repository modernization, spearheading Agentic AI workflow integration with Cursor, serving as Scrum Master for a 9-person cross-functional team, and engineering a Yocto Scarthgap dbus fix that unblocked hardware integration.`,
+  `Star Hotel is a desktop Electron app that remakes a legacy VB6 + Access hotel PMS: room board, bookings, guest records, maintenance, reports, and auth-backed operator workflows. Stack includes React 19, Tailwind v4, shadcn/ui, embedded Express + SQLite on loopback, typed IPC, OpenAPI/codegen, Vitest, ESLint, and CI packaging smoke tests. Repository: github.com/MichaelHabermas/star-hotel`,
+
+  `Michael has worked at Zebra Technologies as a Senior Software Development Engineer from February 2022 to February 2026. His work includes principal-level architectural leadership, legacy repository modernization, spearheading Agentic AI workflow integration with Cursor, serving as Scrum Master for a 9-person cross-functional team, and engineering a Yocto Scarthgap dbus fix that unblocked hardware integration.`,
 
   `Michael has worked at BloomTech as an Applied CS Learner Assistant from February 2025 to present. He modernized the Company Portal via comprehensive repo rewrites and mentored Labs teams in Data Science, Java, and Full Stack development.`,
 
